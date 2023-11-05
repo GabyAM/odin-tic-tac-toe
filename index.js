@@ -19,4 +19,22 @@ const gameboard = (function() {
 })()
 
 
+function createPlayer(name, symbol) {
+    let winnedGames = 0;
+
+    function placeMark(index) {
+        gameboard.placeMark(index, symbol)
+    }   
+    function getWinnedGames() {
+        return winnedGames
+    }
+    function winGame() {
+        winnedGames++;
+    }
+    function getSymbol() {
+        return symbol;
+    }
+    return {name, getSymbol, placeMark, getWinnedGames, winGame}
+}
+
 
