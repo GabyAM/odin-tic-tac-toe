@@ -1,3 +1,29 @@
+const displayController = (function() {
+
+    function createCellElement(value, position) {
+        const $cell = document.createElement('div');
+        $cell.dataset.position = position
+        $cell.className = 'cell';
+        const $icon = document.createElement('span');
+        if (value !== null) {
+            $icon.className = 'material-symbols-outlined';
+            value === 'O' ? $icon.textContent = 'circle' : $icon.textContent = 'close';
+        }
+        $cell.appendChild($icon);
+        return $cell;
+    }
+    
+    function displayBoard(board) {
+        const $board = document.querySelector('.board');
+        $board.innerHTML = '';
+        board.forEach((cell, index) => {
+            const $cell = createCellElement(cell, index);
+            $board.appendChild($cell);
+        })
+    }
+
+    return {displayBoard}
+})()
 
 const gameboard = (function() {
     let board;

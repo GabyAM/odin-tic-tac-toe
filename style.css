@@ -1,0 +1,18 @@
+.board {
+    display: grid;
+    width: 800px;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px);
+    gap: 20px;
+}
+
+.cell {
+    background-color: rgb(215, 213, 232);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cell span {
+    font-size: 60px;
+}
