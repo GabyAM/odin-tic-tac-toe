@@ -35,11 +35,9 @@ const gameboard = (function() {
     function placeMark(index, value) {
         board[index] = value;
         displayController.displayBoard(board);
-        console.log(board)
     }
     function resetBoard() {
         board = Array(9).fill(null);
-        console.log(board)
         displayController.displayBoard(board);
     }
 
@@ -178,7 +176,6 @@ const game = (function() {
     function showResultMessage() {
         const $resultText = document.querySelector('.result-text'); 
         const winner = getWinner();
-        console.log(winner.getName())
         if(winner === undefined) {
             $resultText.textContent = 'Draw!'
         }
