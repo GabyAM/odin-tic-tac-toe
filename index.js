@@ -46,6 +46,10 @@ const gameboard = (function() {
     function isFull() {
         return board.every(cell => cell !== null)
     }
+    function isEmpty() {
+        return board.every(cell => cell === null)
+    }
+
     function getWinnerCombos() {
         return [
             [0, 1, 2],
@@ -58,7 +62,7 @@ const gameboard = (function() {
             [2, 5, 8]
         ];
     }
-    return {board /*ONLY TO TEST*/, getValue, placeMark, getWinnerCombos, resetBoard, isFull}
+    return {board /*ONLY TO TEST*/, getValue, placeMark, getWinnerCombos, resetBoard, isFull, isEmpty}
 })()
 
 
@@ -97,15 +101,24 @@ const game = (function() {
         $resetButton.addEventListener('click', () => {
             start();
         })
+        toggleNameChange()
+    }
+
+    function toggleNameChange() {
         const $changeNameInputs = document.querySelectorAll('.player-info input');
         $changeNameInputs.forEach($input => {
-            $input.onchange = () => {
-                $input.parentElement.classList.contains('player-1') ?
-                    player1.changeName($input.value)
-                    : player2.changeName($input.value)
-                console.log(player1.getName())
-                console.log(player2.getName())
-            }})
+            if ($input.onchange === null) {
+                $input.disabled = false
+                $input.onchange = () => {
+                    $input.parentElement.classList.contains('player-1') ?
+                        player1.changeName($input.value)
+                        : player2.changeName($input.value)
+                }
+            } else {
+                $input.onchange = null;
+                $input.disabled = true
+            }
+    })
     }
 
     function newTurn() {
@@ -135,10 +148,14 @@ const game = (function() {
     }
 
     function handlePlaceMark(position) {
+        if(gameboard.isEmpty()) {
+            toggleNameChange()
+        }
         if(gameboard.getValue(position) === null) {
             playerOnTurn.placeMark(position)
             newTurn();
         }
+
         if(isGameOver()) {
             end();
         }
