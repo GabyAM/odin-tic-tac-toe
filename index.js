@@ -87,6 +87,10 @@ const game = (function() {
     function start() {
         gameboard.resetBoard();
         playerOnTurn = player1;
+        const $resetButton = document.querySelector('.reset-button');
+        $resetButton.addEventListener('click', () => {
+            start();
+        })
     }
 
     function newTurn() {
@@ -143,6 +147,7 @@ const game = (function() {
         }
         $resultText.style.visibility = 'visible';
     }
+
     return {start, handlePlaceMark, end}
 })()
 
