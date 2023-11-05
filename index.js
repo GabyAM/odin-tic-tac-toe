@@ -97,6 +97,7 @@ const game = (function() {
     function start() {
         gameboard.resetBoard();
         playerOnTurn = player1;
+        setPlayingCard();
         const $resetButton = document.querySelector('.reset-button');
         $resetButton.addEventListener('click', () => {
             restart();
@@ -148,6 +149,16 @@ const game = (function() {
         return (gameboard.isFull() || getWinner() !== undefined);
     }
 
+    function setPlayingCard() {
+        if(playerOnTurn === player1) {
+            document.querySelector('.player-info.player-1').classList.add('playing');
+            document.querySelector('.player-info.player-2').classList.remove('playing');
+        } else {
+            document.querySelector('.player-info.player-2').classList.add('playing');
+            document.querySelector('.player-info.player-1').classList.remove('playing');
+        }
+    }
+
     function handlePlaceMark(position) {
         if(gameboard.isEmpty()) {
             toggleNameChange('disable')
@@ -161,7 +172,7 @@ const game = (function() {
 
         if(isGameOver()) {
             end();
-        }
+        } else {setPlayingCard();}
     }
 
     function showResultMessage() {

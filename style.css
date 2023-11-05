@@ -100,3 +100,7 @@ input[type='text']:focus {
 .player-info > span {
     font-size: 100px;
 }
+
+.playing {
+    border: 6px solid black;
+}
