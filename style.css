@@ -20,3 +20,11 @@
 .result-text {
     visibility: hidden;
 }
+
+input[type='text'] {
+    border: none;
+}
+
+input[type='text']:focus {
+    outline: none;
+}

@@ -77,7 +77,13 @@ function createPlayer(name, symbol) {
     function getSymbol() {
         return symbol;
     }
-    return {name, getSymbol, placeMark, getWinnedGames, winGame}
+    function getName() {
+        return name;
+    }
+    function changeName(newName) {
+        name = newName;
+    }
+    return {getName, getSymbol, placeMark, getWinnedGames, winGame, changeName}
 }
 
 const game = (function() {
@@ -91,6 +97,15 @@ const game = (function() {
         $resetButton.addEventListener('click', () => {
             start();
         })
+        const $changeNameInputs = document.querySelectorAll('.player-info input');
+        $changeNameInputs.forEach($input => {
+            $input.onchange = () => {
+                $input.parentElement.classList.contains('player-1') ?
+                    player1.changeName($input.value)
+                    : player2.changeName($input.value)
+                console.log(player1.getName())
+                console.log(player2.getName())
+            }})
     }
 
     function newTurn() {
@@ -140,10 +155,10 @@ const game = (function() {
         if(winner === undefined) {
             $resultText.textContent = 'Draw!'
         }
-        else if(winner.name === player1.name) {
-            $resultText.textContent = 'Player 1 wins!'
+        else if(winner.getName() === player1.getName()) {
+            $resultText.textContent = `${player1.getName()} wins!`
         } else {
-            $resultText.textContent = 'Player 2 wins!'
+            $resultText.textContent = `${player2.getName()} wins!`
         }
         $resultText.style.visibility = 'visible';
     }
