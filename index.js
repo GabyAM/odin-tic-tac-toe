@@ -62,7 +62,7 @@ const gameboard = (function() {
             [2, 5, 8]
         ];
     }
-    return {board /*ONLY TO TEST*/, getValue, placeMark, getWinnerCombos, resetBoard, isFull, isEmpty}
+    return {getValue, placeMark, getWinnerCombos, resetBoard, isFull, isEmpty}
 })()
 
 
@@ -161,11 +161,7 @@ const game = (function() {
         }
     }
 
-    function end() {
-        const $cells = document.querySelectorAll('.board .cell');
-        $cells.forEach($cell => {
-            $cell.onclick = {};
-        })
+    function showResultMessage() {
         const $resultText = document.querySelector('.result-text'); 
         const winner = getWinner();
         console.log(winner)
@@ -177,10 +173,25 @@ const game = (function() {
         } else {
             $resultText.textContent = `${player2.getName()} wins!`
         }
-        $resultText.style.visibility = 'visible';
+        const $result = document.querySelector('.result');
+        $result.style.visibility = 'visible';
+        $result.style.opacity = '0';
+        setTimeout(() => {
+            $result.style.visibility = 'hidden';
+            $result.style.opacity = '1';
+        }, 5000)
     }
 
-    return {start, handlePlaceMark, end}
+    function end() {
+        const $cells = document.querySelectorAll('.board .cell');
+        $cells.forEach($cell => {
+            $cell.onclick = {};
+        })
+        showResultMessage()
+        toggleNameChange('enable');
+    }
+
+    return {start, handlePlaceMark}
 })()
 
 game.start();
