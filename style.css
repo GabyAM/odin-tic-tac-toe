@@ -60,7 +60,7 @@ body {
     height: 30%;
     top: 33%;
     background-color: rgba(0,0,0,0.6);
-    transition: opacity 4.5s;
+    transition: opacity 3s;
     justify-content: center;
     align-items: center;
     visibility: hidden;

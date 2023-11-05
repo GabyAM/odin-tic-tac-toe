@@ -92,8 +92,8 @@ function createPlayer(name, symbol) {
 
 const game = (function() {
     let playerOnTurn;
-    const player1 = createPlayer(document.querySelector('input:first-of-type').value, 'O');
-    const player2 = createPlayer(document.querySelector('input:last-of-type').value, 'X');
+    const player1 = createPlayer(document.querySelector('.player-1 input').value, 'O');
+    const player2 = createPlayer(document.querySelector('.player-2 input').value, 'X');
     function start() {
         gameboard.resetBoard();
         playerOnTurn = player1;
@@ -162,8 +162,8 @@ const game = (function() {
     function handlePlaceMark(position) {
         if(gameboard.isEmpty()) {
             toggleNameChange('disable')
-            player1.changeName(document.querySelector('input:first-of-type').value)
-            player2.changeName(document.querySelector('input:last-of-type').value)
+            player1.changeName(document.querySelector('.player-1 input').value)
+            player2.changeName(document.querySelector('.player-2 input').value)
         }
         if(gameboard.getValue(position) === null) {
             playerOnTurn.placeMark(position)
@@ -178,7 +178,7 @@ const game = (function() {
     function showResultMessage() {
         const $resultText = document.querySelector('.result-text'); 
         const winner = getWinner();
-        console.log(winner)
+        console.log(winner.getName())
         if(winner === undefined) {
             $resultText.textContent = 'Draw!'
         }
@@ -193,7 +193,7 @@ const game = (function() {
         setTimeout(() => {
             $result.style.visibility = 'hidden';
             $result.style.opacity = '1';
-        }, 5000)
+        }, 3000)
     }
 
     function end() {
