@@ -18,6 +18,9 @@ const displayController = (function() {
         $board.innerHTML = '';
         board.forEach((cell, index) => {
             const $cell = createCellElement(cell, index);
+            $cell.addEventListener('click', () => {
+                game.handlePlaceMark(index);
+            })
             $board.appendChild($cell);
         })
     }
@@ -63,4 +66,37 @@ function createPlayer(name, symbol) {
     return {name, getSymbol, placeMark, getWinnedGames, winGame}
 }
 
+const game = (function() {
+    let playerOnTurn;
+    const player1 = createPlayer('player 1', 'O');
+    const player2 = createPlayer('player 2', 'X');
+    function start() {
+        gameboard.resetBoard();
+        playerOnTurn = player1;
+    }
 
+    function newTurn() {
+        playerOnTurn === player1 
+            ? playerOnTurn = player2
+            : playerOnTurn = player1
+    }
+
+    function handlePlaceMark(position) {
+        if(gameboard.getValue(position) === null) {
+            playerOnTurn.placeMark(position)
+            newTurn();
+        }
+    }
+
+    function end() {
+        const $cells = document.querySelectorAll('.board .cell');
+        $cells.forEach($cell => {
+            $cell.removeEventListener('click', () => {
+                handlePlaceMark($cell.dataset.position)
+            })
+        })
+    }
+    return {start, newTurn, handlePlaceMark, end}
+})()
+
+game.start();
