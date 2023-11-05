@@ -92,33 +92,34 @@ function createPlayer(name, symbol) {
 
 const game = (function() {
     let playerOnTurn;
-    const player1 = createPlayer('player 1', 'O');
-    const player2 = createPlayer('player 2', 'X');
+    const player1 = createPlayer(document.querySelector('input:first-of-type').value, 'O');
+    const player2 = createPlayer(document.querySelector('input:last-of-type').value, 'X');
     function start() {
         gameboard.resetBoard();
         playerOnTurn = player1;
         const $resetButton = document.querySelector('.reset-button');
         $resetButton.addEventListener('click', () => {
-            start();
+            restart();
         })
-        toggleNameChange()
     }
 
-    function toggleNameChange() {
+    function restart() {
+        document.querySelector('.result-text').textContent = ''
+        toggleNameChange('enable');
+        start();
+    }
+
+    function toggleNameChange(type) {
         const $changeNameInputs = document.querySelectorAll('.player-info input');
-        $changeNameInputs.forEach($input => {
-            if ($input.onchange === null) {
-                $input.disabled = false
-                $input.onchange = () => {
-                    $input.parentElement.classList.contains('player-1') ?
-                        player1.changeName($input.value)
-                        : player2.changeName($input.value)
-                }
-            } else {
-                $input.onchange = null;
-                $input.disabled = true
-            }
-    })
+        if(type === 'enable') {
+            $changeNameInputs.forEach($input => {
+                $input.disabled = false;
+            })
+        } else if(type === 'disable') {
+            $changeNameInputs.forEach($input => {
+                $input.disabled = true;
+            })
+        }
     }
 
     function newTurn() {
@@ -149,7 +150,9 @@ const game = (function() {
 
     function handlePlaceMark(position) {
         if(gameboard.isEmpty()) {
-            toggleNameChange()
+            toggleNameChange('disable')
+            player1.changeName(document.querySelector('input:first-of-type').value)
+            player2.changeName(document.querySelector('input:last-of-type').value)
         }
         if(gameboard.getValue(position) === null) {
             playerOnTurn.placeMark(position)
