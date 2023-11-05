@@ -16,3 +16,7 @@
 .cell span {
     font-size: 60px;
 }
+
+.result-text {
+    visibility: hidden;
+}
